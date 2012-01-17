@@ -8,14 +8,14 @@ About eZ Mollom
 ===========
 
 The eZ Mollom extension incorporates Mollom anti spam functionality into eZ Publish 
-through the Mollom REST API. Please note that the Mollom REST API is still in beta,
+through the Mollom REST API. Please note that the Mollom REST API is still in beta, 
 and you can not yet use the eZ Mollom extension on production servers.
 
 
 Requirements
 ============
 
-The following requirements exists for using eZ Tube extension:
+The following requirements exists for using eZ Mollom extension:
 
 o  eZ Publish version:
    eZ Publish 4.3 or higher.
