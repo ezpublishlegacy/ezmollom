@@ -1,0 +1,83 @@
+eZ Mollom README
+
+NOTICE
+-------------------
+This extension is based Mollom's REST API, which was suppose to replace the XML-RPC API in 2011.
+However, the Mollom REST API is still in beta. Therefore we recommend not to use the eZ Mollom on production
+sites until further notice. If you wish to be notified when the eZ Mollom extension is available for 
+production sites, please send a mail to info@fumaggo.com. In the mean time we will continue development
+on the eZ Mollom extension.
+
+
+What is eZ Publish?
+-------------------
+eZ Publish is a professional PHP application framework with advanced CMS
+(content management system) functionality. As a CMS it's most notable feature
+is its revolutionary, fully customizable and extendable content model. This is
+also what makes it suitable as a platform for general PHP development, allowing
+you to develop professional Internet applications fast.
+
+Standard CMS functionality, like news publishing, e-commerce and forums is
+already implemented and ready for you to use. Its stand-alone libraries can be
+used for cross-platform, database independent PHP projects.
+
+eZ Publish is database, platform and browser independent. Because it is
+browser based it can be used and updated from anywhere as long as you have
+access to the Internet.
+
+
+What is Mollom?
+-------------------
+When a user posts a comment or other content to your website, your web server sends 
+this content to Mollom for evaluation. Mollom tells your site whether it thinks the 
+content is spam and gives it a quality score. By monitoring content activity on all 
+sites in the Mollom network, Mollom is in a unique position to determine if a post is 
+potentially spam; not only based on the posted content, but also on the past activity 
+and reputation of the poster. 
+
+Mollom is actively developed and maintained by Dries Buytaert, the founder and project 
+lead of Drupal, and Benjamin Schrauwen. Mollom is currently used by more than 30,000 sites, 
+including Sony, Adobe, LinuxJournal, Warner Bros Records, Netlog, NBC, and others. 
+As of September, 2010, Mollom currently protects over 30,000 websites with an average 
+efficiency rate of 99.93% - which means that only 7 in 10,000 spam messages are not 
+routinely caught by Mollom's filters. 
+
+Mollom website: http://mollom.com
+
+
+Mollom features
+-------------------
+* Next generation spam filtering technology … Ham or spam? 
+	When new content is analyzed by Mollom's intelligent text-analysis filter, and Mollom is unsure 
+	whether it is ham or spam, it asks the user to answer a CAPTCHA challenge. 
+* Eliminate spam moderation queues;
+* Accessible and secure CAPTCHAs;
+* Content quality assessment (BETA);
+* Multi-lingual.
+More features listed on: http://mollom.com/features
+
+
+What is eZ Mollom?
+-------------------
+The eZ Mollom extension incorporates Mollom functionality into eZ Publish through the Mollom REST API.
+More information about the Mollom REST API is available at: http://mollom.com/api/rest
+
+
+License
+-------
+eZ Mollom is available under the terms of the terms of the GNU General Public License (GPL).
+The GNU GPL gives you the right to use, modify and redistribute eZ Publish under certain 
+conditions. The GNU GPL license is distributed with the software, see the file LICENSE.
+It is also available at http://www.gnu.org/licenses/gpl.txt
+
+
+Installation
+------------
+Read doc/INSTALL
+
+
+Where to get more help
+----------------------
+Fumaggo Internet Solutions: info@fumaggo.com
+
+

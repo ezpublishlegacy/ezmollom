@@ -1,0 +1,7 @@
+<?php /* #?ini charset="utf-8"?
+
+[MollomConfigSettings]
+server=dev.mollom.com
+publicKey=10ko00zzxwg83nim53anm6nzs1rv970x
+privateKey=
+*/ ?>

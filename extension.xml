@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<software>
+    <metadata>
+        <name>Fummago eZMollom extension</name>
+        <version>0.9</version>
+        <copyright>Fumaggo Internet Solutions</copyright>
+        <license>GNU General Public License v2.0</license>
+        <info_url>http://www.fumaggo.com/ezmollom</info_url>
+        
+	<software>
+		<uses>
+			<name>Mollom client PHP class</name>
+			<license>Licensed under the MIT License and the GNU General Public License (GPL), Version 2</license>
+			<info_url>http://mollom.com/api/rest</info_url>
+		</uses>
+	</software>
+    </metadata>
+    <dependencies/>
+</software>

@@ -1,0 +1,144 @@
+eZ Mollom extension installation documentation
+
+COPYRIGHT NOTICE: Copyright (C) 2011 Fumaggo  All rights reserved.
+
+ (For more document and questions please visit http://projects.ez.no/ezmollom)
+
+About eZ Mollom
+===========
+
+The eZ Mollom extension incorporates Mollom anti spam functionality into eZ Publish 
+through the Mollom REST API. Please note that the Mollom REST API is still in beta,
+and you can not yet use the eZ Mollom extension on production servers.
+
+
+Requirements
+============
+
+The following requirements exists for using eZ Tube extension:
+
+o  eZ Publish version:
+   eZ Publish 4.3 or higher.
+   
+o  PHP version:
+   5.2.1 and higher
+
+
+Installation
+============
+
+ 1. Unpack/unzip
+
+    Unpack the downloaded zip package into the 'extension' directory of your
+    eZ Publish installation.
+
+ 2. Activate extension
+
+    Activate the extension by using the admin interface ( Setup -> Extensions ) or by
+    prepending eztube to ActiveExtensions[] in settings/override/site.ini.append.php:
+
+    [ExtensionSettings]
+    ActiveExtensions[]=ezmollom
+
+ 3. Regenerate autoload array
+
+   In administrator user interface, click 'setup' tab->'extensions' menu, select 'ezmollom', 
+   click button 'Regenerate autoload arrays for extensions', or in eZ Publish installation folder, 
+   run "php bin/php/ezpgenerateautoloads.php -e"
+
+ 4. Add permission for the users 
+ 
+ 5. Clear caches
+ 
+    Clear INI and template caches (from admin 'Setup' tab or commandline).
+    
+ 
+ Quick manual
+ =================
+ 1) The Mollom account keys defined in ezmollomconfig.ini are automatically created and stored on the 
+ first call made to the Mollom rest server. You should not have to edit this file manually. If you have an
+ existing Mollom account, you can not yet use your current Mollom account keys. Please do not change the setting 
+ "server=dev.mollom.com" to "rest.mollom.com": the production server is not yet accessible.
+ 
+ 2. Add the class that you want to use the Mollom spam filter on to the ExtractableClasses list. For example:
+ 		ExtractableClasses[]=forum_reply
+ Then map specific content class attributes identifiers to one of the following Mollom fields. For example:
+ 		[forum_reply_MollomSettings]
+		postTitle=subject
+		postBody=message
+		authorName=author
+ Clear INI caches.
+ 
+ 3. Create a new workflow group called "Mollom" at http://www.yoursite.com/admin_backend/workflow/grouplist.
+ Create a new workflow in the "Mollom" workflow group called "Mollom Spam Filter". Select "Event/Mollom Spam filter"
+ from the list of available events and click the "Add event" button. Click the 'Ok' button to save the workflow.
+ 
+ 4. Modify the workflow triggers at in the administrative backend at: http://www.yoursite.com/admin_backend/trigger/list.
+ Select module "content", function "publish", connection type "before" and then workflow group "Mollom Spam Filter". 
+ 
+ 5. Test the extension by creating a new object of a class that has been included in the ExtractableClasses list.
+ Currently the spam filter only reacts to literal strings "spam", "ham", and "unsure" in the postTitle and postBody parameters.
+ Fill out "spam" or "ham" in the content class field that you have matched to the "postTitle" field, for example "subject".
+ If you fill out "spam", the filter should be present you with a spam report after clicking the "send for publishing" button.
+ If you use "ham", nothing should happen. The "unsure" option is not yet supported in this version of eZ Mollom. 
+ Check the logfile "var/log/ezmollom.log" if you are having problems.
+ 
+ 
+ Integration with eZ Comments
+ =================
+ 1.) In case you want eZ Mollom to check the comments created through the eZ Comments extension, modify the following file:
+ ezcomment/classes/ezcomcommentcommonmanager.php. Change the function "beforeAddingComment" to code below. This will
+ provide basic workflow functionality.
+
+public function beforeAddingComment( $comment, $user, $notification )
+{
+	$siteINI = eZINI::instance();
+	$extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+	$selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+	$selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
+	$selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
+	$selectedExtensions           = array_unique( $selectedExtensions );
+    if ( in_array('ezmollom', $selectedExtensions ) )
+    {
+        //eZMollom Antispam support.
+		$ip = $comment->attribute('ip');
+		$name = $comment->attribute('ip');
+		$email =  $comment->attribute('email');
+		$url =  $comment->attribute('url');
+		$text =  $comment->attribute('text');
+		$title = $comment->attribute('title');
+		$session_key = $comment->attribute('session_key');
+
+		$operationResult = eZOperationHandler::execute( 'ezmollom','ezcomment', array( 'session_key' => $session_key, 'ip_address' => $ip, 'name' => $name, 'email' => $email, 'url' => $url, 'text' => $text, 'title' => $title  ), null, true ); 
+
+		if ( $operationResult['status'] == 1 )
+		{
+		  $comment->setAttribute( 'status', 1 );
+		  return true;
+		}
+		else
+		{
+			$comment->setAttribute( 'status', NULL );
+			return ezpI18n::tr( 'ezcomments/comment/add', 'Your submission has triggered the spam filter and will not be accepted.' );
+		}
+    	}
+    	else
+    	{    	
+        	$comment->setAttribute( 'status', 1 );
+        	return true;
+        }
+    }
+
+ 2. If you have not already done so in the previous steps, create a new workflow group called "Mollom Spam Filter" at http://www.yoursite.com/admin_backend/workflow/grouplist.
+ Create a new workflow in the "Mollom" workflow group called "Mollom Spam Filter". Select "Event/Mollom Spam filter"
+ from the list of available events and click the "Add event" button. Click the 'Ok' button to save the workflow.
+
+ 3. Modify the workflow triggers at in the administrative backend at: http://www.yoursite.com/admin_backend/trigger/list.
+ Select module "ezmollom", function "ezcomment", connection type "before" and then workflow group "Mollom Spam Filter". 
+
+ 4. Test the functionality by creating a new comment with "ham" or "spam" in the "Title" and "Content" fields (see also 'Quick Manual' above).
+ Check the logfile "var/log/ezmollom.log" if you are having problems.
+ 
+ Please submit feedback and questions to http://projects.ez.no/ezmollom.
+ 
+ Thank you for testing!
