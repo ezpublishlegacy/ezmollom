@@ -2,11 +2,11 @@ eZ Mollom README
 
 NOTICE
 -------------------
-This extension is based Mollom's REST API, which was suppose to replace the XML-RPC API in 2011.
-However, the Mollom REST API is still in beta. Therefore we recommend not to use the eZ Mollom on production
-sites until further notice. If you wish to be notified when the eZ Mollom extension is available for 
-production sites, please send a mail to info@fumaggo.com. In the mean time we will continue development
-on the eZ Mollom extension.
+This extension is based Mollom's REST API, which was suppose to replace the XML-RPC API in 
+2011. However, the Mollom REST API is still in beta. Therefore we recommend not to use the 
+eZ Mollom on production sites until further notice. If you wish to be notified when the 
+eZ Mollom extension is available for production sites, please send a mail to info@fumaggo.com. 
+In the mean time we will continue development on the eZ Mollom extension.
 
 
 What is eZ Publish?
@@ -48,8 +48,8 @@ Mollom website: http://mollom.com
 Mollom features
 -------------------
 * Next generation spam filtering technology … Ham or spam? 
-	When new content is analyzed by Mollom's intelligent text-analysis filter, and Mollom is unsure 
-	whether it is ham or spam, it asks the user to answer a CAPTCHA challenge. 
+	When new content is analyzed by Mollom's intelligent text-analysis filter, and Mollom is 
+	unsure whether it is ham or spam, it asks the user to answer a CAPTCHA challenge. 
 * Eliminate spam moderation queues;
 * Accessible and secure CAPTCHAs;
 * Content quality assessment (BETA);
@@ -59,8 +59,9 @@ More features listed on: http://mollom.com/features
 
 What is eZ Mollom?
 -------------------
-The eZ Mollom extension incorporates Mollom functionality into eZ Publish through the Mollom REST API.
-More information about the Mollom REST API is available at: http://mollom.com/api/rest
+The eZ Mollom extension incorporates Mollom anti spam functionality into eZ Publish through 
+the Mollom REST API. More information about the Mollom REST API is available at: 
+http://mollom.com/api/rest
 
 
 License
