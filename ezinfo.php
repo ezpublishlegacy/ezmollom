@@ -13,7 +13,7 @@ class eZMollomInfo
     static function info()
     {
         return array( 'Name' => 'Fummago eZMollom extension',
-                      'Version' => '0.9',
+                      'Version' => '1.0',
                       'Copyright' => 'Fumaggo Internet Solutions',
                       'License' => 'GNU General Public License v2.0'
                      );

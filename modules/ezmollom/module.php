@@ -1,7 +1,7 @@
 <?php
 // File containing the logic of module definition
 // SOFTWARE NAME: Mollom extension
-// SOFTWARE RELEASE: 0.9
+// SOFTWARE RELEASE: 1.0
 // COPYRIGHT NOTICE: Copyright (C) 2011 Fumaggo  All rights reserved.
 // SOFTWARE LICENSE: GNU General Public License v2.0
 //   This program is free software; you can redistribute it and/or
@@ -19,33 +19,37 @@
 //   MA 02110-1301, USA.
 
 $Module = array( 'name' => 'ezmollom' );
+$ini = eZINI::instance( 'ezmollom.ini', 'extension/ezmollom/settings' );
+if ( $ini->hasVariable( 'MollomSettings', 'handler' ) AND $ini->variable( 'MollomSettings', 'handler' ) == "rest" )
+{
+	$type = "rest";
+}
+else
+{
+	$type ="xmlrpc";
+}
 
 $ViewList = array();
 
-$ViewList['blacklist'] = array(
-	'functions' => array( 'blacklist' ),
-	'script' => 'blacklist.php',
-    'unordered_params' => array( "offset" => "Offset", "limit" => "Limit" ) );
+$ViewList['site'] = array(
+		'functions' => array( 'admin' ),
+		'script' => 'site.php' );
 
-$ViewList['editblacklist'] = array(
-	'functions' => array( 'blacklist' ),
-	'script' => 'editblacklist.php',
-	'params' => array( 'ID' ) );
+$ViewList['content'] = array(
+		'functions' => array( 'admin' ),
+		'script' => 'content.php',
+		'params' => array( 'ViewMode' ),
+    	'unordered_params' => array( "offset" => "Offset" ) );
 
-$ViewList['whitelist'] = array(
-	'functions' => array( 'whitelist' ),
-	'script' => 'whitelist.php',
-    'unordered_params' => array( "offset" => "Offset", "limit" => "Limit" ) );
+$ViewList['report'] = array(
+		'functions' => array( 'admin' ),
+		'script' => 'report.php',
+		'params' => array( 'SessionID' ),
+		'single_post_actions' => array( 'SpamButton' => 'Spam',
+                                    	'HamButton' => 'Ham' ) );
 
-$ViewList['editwhitelist'] = array(
-	'functions' => array( 'whitelist' ),
-	'script' => 'editwhitelist.php',
-	'params' => array( 'ID' ) );
-
-
-$FunctionList['settings'] = array( );
-$FunctionList['blacklist'] = array( );
-$FunctionList['whitelist'] = array( );
+$FunctionList['admin'] = array( );
+$FunctionList['use'] = array( );
 
 
 ?>

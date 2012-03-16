@@ -1,7 +1,7 @@
 <?php
 // File containing the logic of operationlist definition
 // SOFTWARE NAME: Mollom extension
-// SOFTWARE RELEASE: 0.9
+// SOFTWARE RELEASE: 1.0
 // COPYRIGHT NOTICE: Copyright (C) 2011 Fumaggo  All rights reserved.
 // SOFTWARE LICENSE: GNU General Public License v2.0
 //   This program is free software; you can redistribute it and/or
@@ -26,28 +26,35 @@ $OperationList['ezcomment'] = array( 'name' => 'ezcomment',
                                         'parameters' => array( array( 'name' => 'session_key',
                                                                       'type' => 'string',
                                                                       'required' => true ),
-																array( 'name' => 'ip_address',
-                                                                      'type' => 'string',
-                                                                      'required' => false ),
-																array( 'name' => 'name',
-                                                                      'type' => 'string',
-                                                                      'required' => false ),
-																array( 'name' => 'email',
-                                                                      'type' => 'string',
-                                                                      'required' => false ),
-																array( 'name' => 'url',
-                                                                      'type' => 'string',
-                                                                      'required' => false ),
-																array( 'name' => 'text',
-                                                                      'type' => 'string',
-                                                                      'required' => false ),
-																array( 'name' => 'title',
-                                                                      'type' => 'string',
-                                                                      'required' => false )
+																array( 'name' => 'comment',
+                                                                      'type' => 'object',
+                                                                      'required' => true ),
+																array( 'name' => 'user_id',
+                                                                      'type' => 'integer',
+                                                                      'required' => true )
                                                                ),
                                         'keys' => array( 'session_key' ),
                                         'body' => array( array( 'type' => 'trigger',
                                                                 'name' => 'pre_ezcomment',
                                                                 'keys' => array( 'session_key' ) )));
+
+                                                               
+$OperationList['ezcollect'] = array( 'name' => 'ezcollect',
+                                        'default_call_method' => array( 'include_file' => 'extension/ezmollom/classes/ezmollomoperationcollection.php',
+                                                                        'class' => 'eZMollomOperationCollection' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( array( 'name' => 'collection_id',
+                                                                      'type' => 'string',
+                                                                      'required' => true ),
+																array( 'name' => 'collection',
+                                                                      'type' => 'object',
+                                                                      'required' => true )
+                                                               ),
+                                        'keys' => array( 'collection_id' ),
+                                        'body' => array( array( 'type' => 'trigger',
+                                                                'name' => 'pre_ezcollect',
+                                                                'keys' => array( 'collection_id' ) )));
+
+                                                               
                                                                
 ?>

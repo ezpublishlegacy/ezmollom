@@ -1,7 +1,7 @@
 <?php
 // File containing the eZMollomOperationCollection class
 // SOFTWARE NAME: Mollom extension
-// SOFTWARE RELEASE: 0.9
+// SOFTWARE RELEASE: 1.0
 // COPYRIGHT NOTICE: Copyright (C) 2011 Fumaggo  All rights reserved.
 // SOFTWARE LICENSE: GNU General Public License v2.0
 //   This program is free software; you can redistribute it and/or
@@ -27,9 +27,14 @@ class eZMollomOperationCollection
     {
     }
     
-    function ezcomment( $session_key  )
+    function ezcomment( $session_key = false, $comment = false, $user_id = false  )
     {
-		return array( 'status' => true );
+		return true;
+    }
+    
+ 	function ezcollect( $collection_id = false, $collection = false  )
+    {
+		return true;
     }
 
 }

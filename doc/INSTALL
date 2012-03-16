@@ -8,8 +8,9 @@ About eZ Mollom
 ===========
 
 The eZ Mollom extension incorporates Mollom anti spam functionality into eZ Publish 
-through the Mollom REST API. Please note that the Mollom REST API is still in beta, 
-and you can not yet use the eZ Mollom extension on production servers.
+through the Mollom XML-RPC and REST API. Please note that the Mollom REST API is still in beta, 
+and should not be used on production servers. We strongly recommend using the XML-RPC handler,
+which is enabled by default.
 
 
 Requirements
@@ -27,28 +28,32 @@ o  PHP version:
 Installation
 ============
 
- 1. Unpack/unzip
+1. Unpack/unzip
 
     Unpack the downloaded zip package into the 'extension' directory of your
     eZ Publish installation.
 
- 2. Activate extension
+2. Activate extension
 
     Activate the extension by using the admin interface ( Setup -> Extensions ) or by
     prepending eztube to ActiveExtensions[] in settings/override/site.ini.append.php:
 
     [ExtensionSettings]
     ActiveExtensions[]=ezmollom
+    
+3.	Select the handler to be used under 'MollomSettings' in ezmollom/settings/ezmollom.ini
+	We recommend using the following setting:
+	Handler=eZMollomXMLRPCLoader
 
- 3. Regenerate autoload array
+4. Regenerate autoload array
 
    In administrator user interface, click 'setup' tab->'extensions' menu, select 'ezmollom', 
    click button 'Regenerate autoload arrays for extensions', or in eZ Publish installation folder, 
    run "php bin/php/ezpgenerateautoloads.php -e"
 
- 4. Add permission for the users 
+5. Add permission for the users 
  
- 5. Clear caches
+6. Clear caches
  
     Clear INI and template caches (from admin 'Setup' tab or commandline).
     
@@ -90,44 +95,6 @@ Installation
  ezcomment/classes/ezcomcommentcommonmanager.php. Change the function "beforeAddingComment" to code below. This will
  provide basic workflow functionality.
 
-public function beforeAddingComment( $comment, $user, $notification )
-{
-	$siteINI = eZINI::instance();
-	$extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-	$selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
-	$selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
-	$selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
-	$selectedExtensions           = array_unique( $selectedExtensions );
-    if ( in_array('ezmollom', $selectedExtensions ) )
-    {
-        //eZMollom Antispam support.
-		$ip = $comment->attribute('ip');
-		$name = $comment->attribute('ip');
-		$email =  $comment->attribute('email');
-		$url =  $comment->attribute('url');
-		$text =  $comment->attribute('text');
-		$title = $comment->attribute('title');
-		$session_key = $comment->attribute('session_key');
-
-		$operationResult = eZOperationHandler::execute( 'ezmollom','ezcomment', array( 'session_key' => $session_key, 'ip_address' => $ip, 'name' => $name, 'email' => $email, 'url' => $url, 'text' => $text, 'title' => $title  ), null, true ); 
-
-		if ( $operationResult['status'] == 1 )
-		{
-		  $comment->setAttribute( 'status', 1 );
-		  return true;
-		}
-		else
-		{
-			$comment->setAttribute( 'status', NULL );
-			return ezpI18n::tr( 'ezcomments/comment/add', 'Your submission has triggered the spam filter and will not be accepted.' );
-		}
-    	}
-    	else
-    	{    	
-        	$comment->setAttribute( 'status', 1 );
-        	return true;
-        }
-    }
 
  2. If you have not already done so in the previous steps, create a new workflow group called "Mollom Spam Filter" at http://www.yoursite.com/admin_backend/workflow/grouplist.
  Create a new workflow in the "Mollom" workflow group called "Mollom Spam Filter". Select "Event/Mollom Spam filter"

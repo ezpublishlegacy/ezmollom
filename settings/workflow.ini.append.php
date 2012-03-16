@@ -6,6 +6,7 @@ ExtensionDirectories[]=ezmollom
 AvailableEventTypes[]=event_ezmollom
 
 [OperationSettings]
+AvailableOperationList[]=before_ezmollom_ezcollect
 AvailableOperationList[]=before_ezmollom_ezcomment
 
 */ ?>
